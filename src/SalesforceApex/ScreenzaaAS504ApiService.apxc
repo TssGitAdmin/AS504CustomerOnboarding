@@ -1,0 +1,112 @@
+public class ScreenzaaAS504ApiService {
+    private static final String API_BASE_URL = '<---YOUR API URL----->';
+    private static final String API_KEY = '<---YOUR API TOKEN----->';
+    
+   private static HttpResponse callAS504API(String requestBody) {
+        URL parsedUrl = new URL(API_BASE_URL);
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(API_BASE_URL);
+        request.setMethod('POST');
+        request.setHeader('ApiToken', API_KEY);
+        request.setHeader('Cluster', 'CL1_User');
+        request.setHeader('Domain', parsedUrl.getHost());
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody(requestBody);
+        request.setTimeout(30000); 
+        Http http = new Http();
+        return http.send(request);
+    }
+    
+    private static HttpResponse screenCustomerDetails(String requestBody) {
+        return callAS504API(requestBody);
+    }
+    
+    private static String getJsonRequest(){
+        A504RequestDto request = new A504RequestDto();
+        request.RequestId = '1234';
+        request.SourceSystemName = 'Finacle'; //place your SourceSystemName
+        request.Purpose = '01,04'; //place your purpose
+        
+        CustomerDto customer = new CustomerDto();
+        customer.sourceSystemName = 'Finacle'; //place your SourceSystemName
+        customer.sourceSystemCustomerCode = '808145456465121';
+        customer.constitutionType = '1';
+        customer.sourceSystemCustomerCreationDate = '11-Nov-2020';
+        customer.uniqueIdentifier = 'LE8081';
+        customer.prefix = 'mr';
+        customer.firstName = 'Nirav';
+        customer.middleName = 'modi';
+        customer.lastName = 'deepak';
+        customer.kycVerificationBranch = 'Mumbai';
+        customer.products = 'MF,LI';
+        customer.pan = 'QWERT1234E';
+        customer.directorIdentificationNumber = '00190509';
+        customer.drivingLicenseNumber = 'DL935152';
+        customer.passportNumber = 'M110522';
+        customer.companyIdentificationNumber = 'U71236MH2015PLC748631';
+        customer.dateOfBirth = '12-Dec-2003';
+        customer.nationalities = 'IND, GBR';
+        customer.correspondenceAddressCountry = 'IND';
+        customer.correspondenceAddressZipCode = '403702';
+        customer.correspondenceAddressLine1 = 'Mamta Nagar, Gavdevi, Flat 101';
+        customer.correspondenceAddressLine2 = 'Koliwada';
+        customer.correspondenceAddressLine3 = 'Mahim West';
+        customer.correspondenceAddressDistrict = 'Mumbai';
+        customer.correspondenceAddressCity = 'Mumbai';
+        customer.correspondenceAddressState = '';
+        customer.permanentAddressCountry = 'IND';
+        customer.permanentAddressZipCode = '403707';
+        customer.permanentAddressLine1 = 'Gokulnagri, Chawl no 15, Room no- 101';
+        customer.permanentAddressLine2 = 'Near MJ College';
+        customer.permanentAddressLine3 = 'Behind RK Hotel, Mumbai';
+        customer.permanentAddressDistrict = 'Mumbai';
+        customer.permanentAddressCity = 'Mumbai';
+        customer.permanentAddressState = 'MH';
+        customer.gender = '01';
+        customer.screeningProfile = 'CUSSP43';
+        request.CustomerList.add(customer);
+        String jsonOutput = JSON.serialize(request);
+		System.debug(jsonOutput);
+        return jsonOutput;
+    }
+    
+    public static void Main(){
+       
+        String jsonRequest = getJsonRequest();
+        HttpResponse response = screenCustomerDetails(jsonRequest);
+		String responseBody = response.getBody();
+		System.debug(responseBody);
+        A504ClientResponseModel customerResponseDto = (A504ClientResponseModel) JSON.deserialize(responseBody, A504ClientResponseModel.class);
+        System.debug('done deserailzation');
+        for(CustomerResponse custResponse :  customerResponseDto.Response.CustomerResponse){
+			System.debug('Customer SourceSystemCustomerCode : ' + custResponse.SourceSystemCustomerCode); 
+			System.debug('Customer ValidationOutcome : ' + custResponse.ValidationOutcome);
+			for(PurposeResponse purposeResponse :  custResponse.PurposeResponse) {
+				System.debug('Customer PurposeCode : ' + purposeResponse.Purpose);
+				System.debug('Customer PurposeCode : ' + purposeResponse.PurposeCode);
+				System.debug('Customer ValidationCode : ' + purposeResponse.ValidationCode);
+				System.debug('Customer ValidationDescription : ' + purposeResponse.ValidationDescription);
+				System.debug('Customer ValidationFailureCount : ' + purposeResponse.ValidationFailureCount);
+
+                if(purposeResponse.Data != null){
+                    BasePurposeDto purposeDto = purposeResponse.Data;
+                    System.debug('Customer CaseId : ' + purposeDto.CaseId);
+                    System.debug('Customer CaseUrl : ' + purposeDto.CaseUrl);
+                    System.debug('Customer ConfirmedHits : ' + purposeDto.ConfirmedHits);
+                    System.debug('Customer HitsDetected : ' + purposeDto.HitsDetected);
+                    System.debug('Customer ReportData : ' + purposeDto.ReportData);
+                    System.debug('Customer SuggestedAction : ' + purposeDto.SuggestedAction);
+                    System.debug('Customer HitsCount : ' + purposeDto.HitsCount);
+                    for(HitDto hit : purposeDto.HitResponse) {
+                        System.debug('Customer ConfirmedMatchingAttributes : ' + hit.ConfirmedMatchingAttributes);
+                        System.debug('Customer MatchType : ' + hit.MatchType);
+                        System.debug('Customer Source : ' + hit.Source);
+                        System.debug('Customer WatchlistSourceId : ' + hit.WatchlistSourceId);
+                        System.debug('Customer Score : ' + hit.Score);
+                    }  
+                }
+				
+			}
+		}    
+    }  
+}

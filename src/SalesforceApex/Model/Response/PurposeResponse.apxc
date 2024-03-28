@@ -1,0 +1,8 @@
+public class PurposeResponse {
+    public String Purpose;
+    public String PurposeCode;
+    public BasePurposeDto Data;
+    public String ValidationCode;
+    public String ValidationDescription;
+    public Integer ValidationFailureCount;
+}

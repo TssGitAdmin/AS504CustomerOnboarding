@@ -1,0 +1,4 @@
+public virtual class BaseResponse {
+    public String ValidationOutcome;
+    public List<PurposeResponse> PurposeResponse;
+}

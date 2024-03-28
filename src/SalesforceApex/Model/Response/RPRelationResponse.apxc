@@ -1,0 +1,6 @@
+public class RPRelationResponse extends BaseResponse {
+    public String SourceSystemCustomerCode;
+    public String RelatedPersonSourceSystemCode;
+    public String RelationCode;
+
+}

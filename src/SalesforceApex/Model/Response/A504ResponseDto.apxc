@@ -1,0 +1,5 @@
+public class A504ResponseDto {
+	public String OverallStatus;
+    public String ErrorMessage;
+    public List<CustomerResponse> CustomerResponse;
+}

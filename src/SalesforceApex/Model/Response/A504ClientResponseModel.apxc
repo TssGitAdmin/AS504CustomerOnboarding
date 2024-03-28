@@ -1,0 +1,6 @@
+public class A504ClientResponseModel {
+	public String ValidationCode ;
+    public String ValidationDescription ;
+    public String RequestId ;
+    public A504ResponseDto Response ;
+}
