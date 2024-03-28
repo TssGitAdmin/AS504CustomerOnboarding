@@ -1,0 +1,6 @@
+public class TaxDetailDto {
+		public String taxResidencyCountry;
+	    public String taxIdentificationNumber;
+	    public String taxResidencyStartDate;
+	    public String taxResidencyEndDate;
+}

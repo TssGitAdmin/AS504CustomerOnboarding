@@ -1,0 +1,9 @@
+public class A504RequestDto {
+    public A504RequestDto(){
+        this.CustomerList = new List<CustomerDto>();
+    }
+	public String RequestId ;
+    public String SourceSystemName ;
+    public String Purpose ;
+    public List<CustomerDto> CustomerList ;
+}

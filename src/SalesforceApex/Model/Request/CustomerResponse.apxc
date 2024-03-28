@@ -1,0 +1,5 @@
+public class CustomerResponse extends CustomerBaseResp {
+    public List<CustomerBaseResp> RelatedPersonResponse;
+    public List<RPRelationResponse> RelatedPersonRelationResponse;
+
+}

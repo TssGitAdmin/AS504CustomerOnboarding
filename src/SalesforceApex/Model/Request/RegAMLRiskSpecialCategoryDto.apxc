@@ -1,0 +1,5 @@
+public class RegAMLRiskSpecialCategoryDto {
+	public String regAMLRiskSpecialCategory;
+    public Integer regAMLRiskSpecialCategoryId;
+    public String regAMLRiskSpecialCategoryStartDate;
+}

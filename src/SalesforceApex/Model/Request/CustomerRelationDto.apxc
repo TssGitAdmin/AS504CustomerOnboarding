@@ -1,0 +1,11 @@
+public class CustomerRelationDto {
+	private String requestId;
+    private String customerSystemGeneratedId;
+    private String customerSourceSystemCode;
+    private String relatedPersonSourceSystemCode;
+    private String relationCode;
+    private String relationStartDate;
+    private String relationEndDate;
+    private Double shareHoldingPercentage;
+    private String notes;
+}
